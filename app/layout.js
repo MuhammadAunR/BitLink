@@ -26,12 +26,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en"
+      crosspilot="">
       <body
         className={`${poppins.variable} antialiased ${poppins.className}`} >
         <Navbar />
         {children}
-       <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
+        <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
       </body>
     </html>
   );
