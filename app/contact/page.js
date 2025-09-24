@@ -118,33 +118,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-lg mb-1" style={{ color: '#343434' }}>Email Us</h3>
-                      <p className="text-gray-600">hello@bitlink.com</p>
-                      <p className="text-gray-600">support@bitlink.com</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#2F3061' }}>
-                      <Phone className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg mb-1" style={{ color: '#343434' }}>Call Us</h3>
-                      <p className="text-gray-600">+1 (555) 123-4567</p>
-                      <p className="text-sm text-gray-500">Monday - Friday, 9 AM - 6 PM EST</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#2F3061' }}>
-                      <MapPin className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg mb-1" style={{ color: '#343434' }}>Office</h3>
-                      <p className="text-gray-600">
-                        123 Tech Street<br />
-                        Silicon Valley, CA 94000<br />
-                        United States
-                      </p>
+                      <p className="text-gray-600">greataun786@gmail.com</p>
                     </div>
                   </div>
 
