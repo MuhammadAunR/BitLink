@@ -15,7 +15,7 @@ export default function Home() {
           </div>
 
           <div className="relative h-[70vh]">
-            <Image alt="shared workspace" src={'/group.gif'} fill={true} className="p-10" />
+            <Image alt="shared workspace" src={'/group.gif'} unoptimized={true} fill={true} className="p-10" />
           </div>
 
         </section>
