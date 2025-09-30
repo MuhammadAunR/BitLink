@@ -1,6 +1,5 @@
 "use client"
-
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { CirclePlus, Copy } from "lucide-react";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
@@ -11,6 +10,14 @@ const Shorten = () => {
     const [url, setUrl] = useState("")
     const [shortUrl, setShortUrl] = useState("")
     const [generatedUrl, setGeneratedUrl] = useState("")
+    const [shortenArray, setShortenArray] = useState([])
+
+    useEffect(() => {
+        let urls = localStorage.getItem('urls')
+        if (urls) {
+            setShortenArray(JSON.parse(urls))
+        }
+    }, [])
 
     const displayToast = (message) => {
         toast(message, {
@@ -28,47 +35,39 @@ const Shorten = () => {
 
     const handleGenerate = () => {
         if (url?.trim() && shortUrl?.trim()) {
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
-
-            const raw = JSON.stringify({
-                "url": url,
-                "shortUrl": shortUrl
-            });
-
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow"
-            };
-
-            fetch("/api/generate", requestOptions)
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log(result)
-                    displayToast(result.message)
-                    setUrl("")
-                    setShortUrl("")
-                    const newGeneratedUrl = `${process.env.NEXT_PUBLIC_HOST}/${shortUrl}`
-                    setGeneratedUrl(newGeneratedUrl)
-                })
-                .catch((error) => {
-                    console.error(error)
-                });
+            const newGeneratedUrl = `${process.env.NEXT_PUBLIC_HOST}/${shortUrl}`
+            let check = shortenArray.some(item => {
+                return item.url.split('/').pop() === shortUrl
+            })
+            if (shortUrl === check) {
+                displayToast('Short Url already exists!')
+                return
+            }
+            setGeneratedUrl(newGeneratedUrl)
+            let urls = [...shortenArray, { url: newGeneratedUrl }]
+            setShortenArray(urls)
+            localStorage.setItem('urls', JSON.stringify(urls))
+            displayToast('Url Generated Successfully')
+            setUrl("")
+            setShortUrl("")
         } else {
             displayToast('Input fields required.')
         }
     }
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(generatedUrl)
+    const handleCopy = (url) => {
+        navigator.clipboard.writeText(url)
         displayToast("URL copied to clipboard.")
     }
 
-    const handleEdit = () => { }
-    const handleDelete = () => { }
-
+    const handleDelete = (i) => {
+        let newArray = shortenArray.filter((item, index) => {
+            return index !== i
+        })
+        setShortenArray(newArray)
+        localStorage.setItem('urls', JSON.stringify(newArray))
+    }
+    console.log(shortenArray)
     return (
         <>
             <ToastContainer
@@ -119,50 +118,37 @@ const Shorten = () => {
 
                 <div><h3 className='font-bold text-lg m-3'>Your Links:</h3></div>
 
-                {generatedUrl && <div
-                    className="displayUrl flex items-center justify-between p-3 m-3 rounded-lg bg-gray-400/45 backdrop-blur-2xl hover:shadow-lg hover:shadow-[#2f3061]-inset transition-all duration-300 ease-in-out">
 
-                    <Link href={generatedUrl} target='_blank'>
-                        <code>{generatedUrl}</code>
-                    </Link>
+                {shortenArray.length > 0 ? <div className='h-46 scrollbar-custom overflow-y-scroll'>
 
-                    <div className="icons flex items-center gap-2">
-                        <span>
-                            <lord-icon
-                                src="https://cdn.lordicon.com/nwfpiryp.json"
-                                trigger="loop"
-                                delay="1000"
-                                state="in-dynamic"
-                                colors="primary:#ebe6ef,secondary:#1663c7,tertiary:#ffc738,quaternary:#3a3347"
-                                className="cursor-pointer"
-                                onClick={handleEdit}>
-
-                            </lord-icon>
-                        </span>
-
-                        <span>
-                            <lord-icon
-                                src="https://cdn.lordicon.com/egqwwrlq.json"
-                                trigger="loop"
-                                delay="1000"
-                                className="cursor-pointer"
-                                onClick={handleDelete}>
-
-                            </lord-icon>
-                        </span>
-
-                        <span>
-                            <Copy className="cursor-pointer" onClick={handleCopy} />
-                        </span>
-
-                    </div>
-                </div>}
-
-                {!generatedUrl && <div
+                    {shortenArray.map((item, index) => {
+                        return (
+                            <div key={index}
+                                className="displayUrl flex items-center justify-between p-3 m-3 rounded-lg bg-gray-400/45 backdrop-blur-2xl hover:shadow-lg hover:shadow-[#2f3061]-inset transition-all duration-300 ease-in-out">
+                                <Link href={item.url} target='_blank'>
+                                    <code>{item.url}</code>
+                                </Link>
+                                <div className="icons flex items-center gap-2">
+                                    <span>
+                                        <lord-icon
+                                            src="https://cdn.lordicon.com/egqwwrlq.json"
+                                            trigger="loop"
+                                            delay="1000"
+                                            className="cursor-pointer"
+                                            onClick={() => { handleDelete(index) }}>
+                                        </lord-icon>
+                                    </span>
+                                    <span>
+                                        <Copy className="cursor-pointer" onClick={() => { handleCopy(item.url) }} />
+                                    </span>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div> : <div
                     className='text-center font-bold md:text-xl text-[#2f3061] mt-4 underline underline-offset-2'>
                     No Generated URL
                 </div>}
-
             </div>
         </>
     )

@@ -24,9 +24,9 @@ const Hamburger = () => {
                             onClick={() => { setShowHamburger(!showHamburger) }}>
                             <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">About</li>
                         </Link>
-                        <Link href="/contact"
+                        <Link href="https://github.com/MuhammadAunR/BitLink.git"
                             onClick={() => { setShowHamburger(!showHamburger) }}>
-                            <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contact</li>
+                            <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">GitHub</li>
                         </Link>
                     </ul>
                     <div className="py-2">

@@ -22,7 +22,7 @@ const Navbar = () => {
                     </div>
                 </Link>
                 <div className='md:hidden block'>
-                <Hamburger />
+                    <Hamburger />
                 </div>
                 <ul className='md:flex md:items-center md:gap-7 font-semibold hidden'>
                     <Link href="/">
@@ -33,9 +33,6 @@ const Navbar = () => {
                     </Link>
                     <Link href="/about">
                         <li className='relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[3px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full'>About</li>
-                    </Link>
-                    <Link href="/contact">
-                        <li className='relative after:content-[""] after:absolute after:left-0 after:bottom-0 after:h-[3px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-full'>Contact</li>
                     </Link>
 
                     <div className='flex items-center justify-center gap-3'>

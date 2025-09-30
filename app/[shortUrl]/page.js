@@ -1,19 +1,25 @@
-import { redirect } from "next/navigation";
-import clientPromise from "../lib/mongodb";
+'use client'
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default async function Page({ params }) {
-    const shortUrl = await params.shortUrl
 
-    const client = await clientPromise;
-    const db = client.db('bitLink')
-    const collection = db.collection('url')
+export default function Page() {
+    const router = useRouter()
+    const params = useParams
+    const shortUrl = params.shortUrl
 
-    const doc = await collection.findOne({ shortUrl: shortUrl })
-    if (doc) {
-        redirect(doc.url)
-    } else {
-        redirect(`${NEXT_PUBLIC_HOST}`)
-    }
+    useEffect(() => {
 
-    return <div>My Post: {shortUrl}</div>
+        let urls = JSON.parse(localStorage.getItem('urls') || '[]')
+        let match = urls.find(item => item.url.split('/').pop() === shortUrl)
+
+        if (match) {
+            router.push('/')
+        } else {
+            router.push(`${process.env.NEXT_PUBLIC_HOST}`)
+        }
+
+    }, [shortUrl, router])
+
+    return <div>Redirecting...</div>
 }
