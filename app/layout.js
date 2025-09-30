@@ -9,15 +9,6 @@ const poppins = Poppins({
   weight: ["400", "700", "100", "600", "200", "800"]
 });
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "BitLinks - Your trusted URL shortener",
